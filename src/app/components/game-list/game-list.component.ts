@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+// import { MatPaginator } from '@angular/material/paginator';
+// import {MatTableModule} from '@angular/material/table';
+
 
 @Component({
   selector: 'app-game-list',
@@ -6,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent implements OnInit {
-
+  // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor() { }
 
   ngOnInit(): void {
