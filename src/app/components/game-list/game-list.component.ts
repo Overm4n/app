@@ -13,7 +13,7 @@ export class GameListComponent implements OnInit {
     allElements: 0,
     allPage: [],
     curentPage: 0,
-    showPagesList:  Array(10).fill(0).map((x, i) => i),
+    showPagesList:  Array(10).fill(0).map((x, i) => i+1),
     countElementsPages: 20,
   };
 
@@ -36,22 +36,34 @@ export class GameListComponent implements OnInit {
 
   clickPage(number) {
     if(number <= this.pagination.allPage.length){
-      this.pagination.curentPage = number;
-    this.pagination.showPagesList = Array(10).fill(0).map((x, i) => i+number);
-    console.log(number, this.pagination.showPagesList);
-    this.http.get('assets/games.json').subscribe((data: any) => {
-      this.gamesList.splice(0, this.gamesList.length);
-      for (const [index, value] of data.games.entries()) {
-        if (index < this.pagination.curentPage * this.pagination.countElementsPages + this.pagination.countElementsPages &&
-           index >= this.pagination.curentPage * this.pagination.countElementsPages) {
-          this.gamesList.push(value);
+      // console.log(number, this.pagination.allPage.length, this.pagination.showPagesList.slice(-1)[0]);
+      if(number >= this.pagination.showPagesList.slice(-1)[0]){
+        this.pagination.showPagesList = Array(10).fill(0).map((x, i) => i+number);
+        if(this.pagination.showPagesList.slice(-1)[0]-this.pagination.allPage.length > 0){
+          this.pagination.showPagesList.splice(0, this.pagination.showPagesList.slice(-1)[0]-this.pagination.allPage.length)
+          console.log(this.pagination.allPage.length-this.pagination.showPagesList.slice(-1)[0]);
+          
+          // this.pagination.showPagesList.length = this.pagination.showPagesList.length - this.pagination.showPagesList.slice(-1)[0]-this.pagination.allPage.length
+          // this.pagination.showPagesList.splice(0, -this.pagination.showPagesList.slice(-1)[0]-this.pagination.allPage.length)
+          // this.pagination.showPagesList.splice(-this.pagination.showPagesList.slice(-1)[0]-this.pagination.allPage.length, this.pagination.showPagesList.slice(-1)[0]-this.pagination.allPage.length)
         }
+        console.log(this.pagination.showPagesList.slice(-1)[0], this.pagination.showPagesList.slice(-1)[0]-this.pagination.allPage.length);
+        
       }
-    })
+        this.pagination.curentPage = number-1;
+        this.http.get('assets/games.json').subscribe((data: any) => {
+            this.gamesList.splice(0, this.gamesList.length);
+            for (const [index, value] of data.games.entries()) {
+              if (index < this.pagination.curentPage * this.pagination.countElementsPages + this.pagination.countElementsPages &&
+                 index >= this.pagination.curentPage * this.pagination.countElementsPages) {
+                this.gamesList.push(value);
+              }
+            }
+          })
     }
     
-    
   }
+
 }
 
 type pagination = {
