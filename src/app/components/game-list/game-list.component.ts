@@ -16,8 +16,7 @@ export class GameListComponent implements OnInit {
     { num: 1, name: 'desc' },
   ];
   selectSort = this.sorting[0];
-  // Favorite: new Map<string, string>;
-  Favorite: MyType;
+  Favorite = [];
 
   constructor(private http: HttpClient) {}
 
@@ -73,23 +72,22 @@ export class GameListComponent implements OnInit {
 
   addFavorite(game){
     
-
-    // this.Favorite.push(game.Name.en)
-    this.Favorite.id=game.ID
+    let repeat = false
+    for (const iterator of this.Favorite) {
+      if(iterator.id == game.ID){
+        repeat = true
+      }
+    }
+    if (!repeat) {
+      this.Favorite.push({id: game.ID})
+      this.gamesList.find(e => e.ID === game.ID).Favorite = true
+    }
+    
     // Favorite.
     // localStorage
-    // localStorage.setItem('Favorite', this.Favorite);
-    console.log( this.Favorite, game.ID, game.Name.en);
+    localStorage.setItem('Favorite', JSON.stringify(this.Favorite));
+    console.log( localStorage.getItem('Favorite'), this.gamesList.find(e => e.ID === game.ID));
     
   }
 
-}
-
-
-interface fav {
-  [key: string]: string | boolean | number;
-}
-
-interface MyType {
-  [key: string]: any
 }

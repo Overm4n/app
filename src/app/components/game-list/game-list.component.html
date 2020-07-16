@@ -27,8 +27,11 @@
     <img src="{{ game.ImageFullPath }}" class="card-img-top" />
     <div class="card-body">
       <h5 class="card-title">{{ game.Name.en }}</h5>
-      <a href="#" class="btn btn-primary">Game</a>
-      <button href="#" class="btn btn-primary" (click)="addFavorite(game)">Favorite</button>
+      <div class="button-block">
+        <a href="#" class="btn btn-primary">Game</a>
+        <button href="#" class="btn btn-primary" (click)="addFavorite(game)" [ngClass]="{favorite: game.Favorite}">Favorite</button>
+      </div>
+      
     </div>
   </div>
 </div>
