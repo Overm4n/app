@@ -2,12 +2,15 @@
     display: flex;
     flex-wrap: wrap;
 
-    ngb-pagination {
+    .pagin-cont{
         width: 100%;
-
-        .pagination{
+        .pagination-list {
+            // width: 100%;
             margin-top: 1rem;
         }
     }
     
 }
+
+
+

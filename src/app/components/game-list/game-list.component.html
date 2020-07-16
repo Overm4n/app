@@ -1,17 +1,28 @@
 <div class="container-fluid games-container">
-  <ngb-pagination
-    [(page)]="page"
-    [(pageSize)]="pageSize"
-    [(collectionSize)]="collectionSize"
-    [maxSize]="10"
-    [rotate]="true"
-    [ellipses]="false"
-    [boundaryLinks]="true"
-  ></ngb-pagination>
+  <div class="pagin-cont">
+    <ngb-pagination
+      [(page)]="page"
+      [(pageSize)]="pageSize"
+      [(collectionSize)]="collectionSize"
+      [maxSize]="10"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+      [ngClass]="'pagination-list'"
+    ></ngb-pagination>
+    <div>
+        <select name="sort" id="sort" [(ngModel)]="selectSort" (change)="changeSort()">
+            <option *ngFor="let sort of sorting" [ngValue]="sort">{{sort.name}}</option>
+        </select>
+    </div>
+  </div>
+
   <div
     class="card m-2"
     style="width: 18rem;"
-    *ngFor="let game of gamesList | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize
+    *ngFor="
+      let game of gamesList
+        | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize
     "
   >
     <img src="{{ game.ImageFullPath }}" class="card-img-top" />
