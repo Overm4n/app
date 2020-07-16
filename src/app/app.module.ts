@@ -10,8 +10,8 @@ import { FilterComponent } from './components/filter/filter.component';
 import { GameListComponent } from './components/game-list/game-list.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material/table';
+
+
 
 @NgModule({
   declarations: [
@@ -27,8 +27,7 @@ import { MatTableModule } from '@angular/material/table';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    BrowserAnimationsModule,
-    MatTableModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
