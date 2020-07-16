@@ -22,13 +22,13 @@
     style="width: 18rem;"
     *ngFor="
       let game of gamesList
-        | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize
-    "
+        | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize"
   >
     <img src="{{ game.ImageFullPath }}" class="card-img-top" />
     <div class="card-body">
       <h5 class="card-title">{{ game.Name.en }}</h5>
       <a href="#" class="btn btn-primary">Game</a>
+      <button href="#" class="btn btn-primary" (click)="addFavorite(game)">Favorite</button>
     </div>
   </div>
 </div>
