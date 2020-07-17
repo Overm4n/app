@@ -30,8 +30,10 @@ export class GameListComponent implements OnInit {
     }
     if(this.search.length > 2){
       this.gamesList = searchEl
+      this.collectionSize = this.gamesList.length
     }else{
       this.gamesList = this.twoGameList
+      this.collectionSize = this.gamesList.length
     }
     
     
