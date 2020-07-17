@@ -14,6 +14,7 @@ export class GameListComponent implements OnInit {
   sorting: Array<Object> = [
     { num: 0, name: 'ASC' },
     { num: 1, name: 'desc' },
+    { num: 2, name: 'fav' },
   ];
   selectSort = this.sorting[0];
   Favorite = [];
@@ -56,7 +57,7 @@ export class GameListComponent implements OnInit {
         // a должно быть равным b
         return 0;
       })
-    }else{
+    }else if(this.selectSort['name'] == 'desc'){
       this.gamesList.sort(function (a, b) {
         if (b.Name.en > a.Name.en) {
           return 1;
@@ -66,6 +67,11 @@ export class GameListComponent implements OnInit {
         }
         // a должно быть равным b
         return 0;
+      })
+    }else{
+      this.gamesList.sort(function (a, b) {
+        return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
+        // return b.Favorite - a.Favorite;
       })
     }
   }
