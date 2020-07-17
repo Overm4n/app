@@ -27,7 +27,7 @@
       </div>
       <div class="ont-el">
         <label for="fav">Сначала фавориты</label>
-        <input type="checkbox" name="fav" id="fav" [(ngModel)]="sortFav" (change)="fav()">
+        <input type="checkbox" name="fav" id="fav" [(ngModel)]="sortFav" (change)="sortingFav()">
       </div>
       <div class="ont-el">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" [(ngModel)]="search" (input)="searching()">
@@ -46,7 +46,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ game.Name.en }}</h5>
       <div class="button-block">
-        <a href="#" class="btn btn-primary">Game</a>
+        <a href="#" class="btn btn-primary">Play</a>
         <button href="#" class="btn btn-primary" (click)="addFavorite(game)" [ngClass]="{favorite: game.Favorite}">Favorite</button>
       </div>
       
@@ -80,7 +80,7 @@
       </div>
       <div class="ont-el">
         <label for="fav">Сначала фавориты</label>
-        <input type="checkbox" name="fav" id="fav" [(ngModel)]="sortFav" (change)="fav()">
+        <input type="checkbox" name="fav" id="fav" [(ngModel)]="sortFav" (change)="sortingFav()">
       </div>
     </div>
   </div>
