@@ -1,0 +1,62 @@
+.games-container {
+    display: flex;
+    flex-wrap: wrap;
+  
+    .pagin-cont {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+  
+      .optino-block {
+        display: flex;
+        flex-wrap: wrap;
+  
+        .ont-el {
+          margin-left: 15px;
+          display: flex;
+          align-items: center;
+  
+          .radio-hidden {
+            display: none;
+          }
+  
+          .pageSize {
+            position: relative;
+            display: block;
+            padding: 0.4rem 0rem;
+            line-height: 1.25;
+            font-size: 1rem;
+            color: #333;
+            background-color: #fff;
+            cursor: pointer;
+  
+            &.active {
+              color: #007bff;
+            }
+          }
+  
+          label {
+            margin-bottom: 0px;
+            margin-right: 10px;
+          }
+        }
+      }
+  
+      .pagination-list {
+        // width: 100%;
+        margin-top: 1rem;
+      }
+    }
+    .button-block {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+  
+      .favorite {
+        background-color: var(--green);
+      }
+    }
+  }
+  

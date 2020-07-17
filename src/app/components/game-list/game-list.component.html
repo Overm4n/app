@@ -29,6 +29,9 @@
         <label for="fav">Сначала фавориты</label>
         <input type="checkbox" name="fav" id="fav" [(ngModel)]="sortFav" (change)="fav()">
       </div>
+      <div class="ont-el">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" [(ngModel)]="search" (input)="searching()">
+    </div>
     </div>
   </div>
 
@@ -47,6 +50,38 @@
         <button href="#" class="btn btn-primary" (click)="addFavorite(game)" [ngClass]="{favorite: game.Favorite}">Favorite</button>
       </div>
       
+    </div>
+  </div>
+  <div class="pagin-cont">
+    <ngb-pagination
+      [(page)]="page"
+      [(pageSize)]="pageSize"
+      [(collectionSize)]="collectionSize"
+      [maxSize]="10"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+      [ngClass]="'pagination-list'"
+    ></ngb-pagination>
+    <div class="optino-block">
+      <div class="ont-el">
+        <label for="pageSize-20" class="pageSize" [ngClass]="{'active': pageSize==20}">20</label>
+        <input type="radio" name="pageSize" id="pageSize-20" class="radio-hidden" value="20"  checked [(ngModel)]="pageSize">
+        <label for="pageSize-40" class="pageSize" [ngClass]="{'active': pageSize==40}">40</label>
+        <input type="radio" name="pageSize" id="pageSize-40" class="radio-hidden" value="40" [(ngModel)]="pageSize">
+        <label for="pageSize-60" class="pageSize" [ngClass]="{'active': pageSize==60}">60</label>
+        <input type="radio" name="pageSize" id="pageSize-60" class="radio-hidden" value="60" [(ngModel)]="pageSize">
+      </div>
+      <div class="ont-el">
+        <label for="sort">Сортировка</label>
+        <select name="sort" id="sort" [(ngModel)]="selectSort" (change)="changeSort()">
+            <option *ngFor="let sort of sorting" [ngValue]="sort">{{sort.name}}</option>
+        </select>
+      </div>
+      <div class="ont-el">
+        <label for="fav">Сначала фавориты</label>
+        <input type="checkbox" name="fav" id="fav" [(ngModel)]="sortFav" (change)="fav()">
+      </div>
     </div>
   </div>
 </div>

@@ -8,17 +8,34 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GameListComponent implements OnInit {
   gamesList: any = [];
+  twoGameList: any = this.gamesList;
   page = 1;
   pageSize = 20;
   collectionSize = 10;
   sorting: Array<Object> = [
     { num: 0, name: 'ASC' },
-    { num: 1, name: 'desc' },
-    { num: 2, name: 'fav' },
+    { num: 1, name: 'desc' }
   ];
   selectSort = this.sorting[0];
   sortFav = false;
-  Favorite = [];
+  Favorite: any[] = JSON.parse(localStorage.getItem('Favorite'));
+  search: string;
+
+  searching(){
+    let searchEl: any = [];
+    for (const iterator of this.gamesList) {
+      if(iterator.Name.en.toLocaleLowerCase().indexOf(this.search.toLocaleLowerCase()) > -1 && this.search.length > 2){
+        searchEl.push(iterator);
+      }
+    }
+    if(this.search.length > 2){
+      this.gamesList = searchEl
+    }else{
+      this.gamesList = this.twoGameList
+    }
+    
+    
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -27,6 +44,12 @@ export class GameListComponent implements OnInit {
       this.collectionSize = data.games.length;
       
       for (const [index, value] of data.games.entries()) {
+        for (const iterator of this.Favorite) {
+          if(iterator.id == value.ID){
+            value.Favorite = true
+          }
+          
+        }
         this.gamesList.push(value);
       }
 
@@ -54,9 +77,14 @@ export class GameListComponent implements OnInit {
         if (a.Name.en < b.Name.en) {
           return -1;
         }
-        // a должно быть равным b
         return 0;
       })
+      if(this.sortFav){
+        this.gamesList.sort(function (a, b) {
+          return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
+          // return b.Favorite - a.Favorite;
+        })
+      }
     }else if(this.selectSort['name'] == 'desc'){
       this.gamesList.sort(function (a, b) {
         if (b.Name.en > a.Name.en) {
@@ -68,22 +96,17 @@ export class GameListComponent implements OnInit {
         // a должно быть равным b
         return 0;
       })
-    }else{
-      this.gamesList.sort(function (a, b) {
-        return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
-        // return b.Favorite - a.Favorite;
-      })
+      if(this.sortFav){
+        this.gamesList.sort(function (a, b) {
+          return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
+          // return b.Favorite - a.Favorite;
+        })
+      }
     }
   }
 
   fav(){
-    if(this.sortFav){
-      this.gamesList.sort(function (a, b) {
-        return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
-        // return b.Favorite - a.Favorite;
-      })
-    }else{
-      if(this.selectSort['name'] == 'ASC'){
+      if(this.selectSort['name'] == 'ASC' && this.sortFav){
         this.gamesList.sort(function (a, b) {
           if (a.Name.en > b.Name.en) {
             return 1;
@@ -94,7 +117,11 @@ export class GameListComponent implements OnInit {
           // a должно быть равным b
           return 0;
         })
-      }else if(this.selectSort['name'] == 'desc'){
+        this.gamesList.sort(function (a, b) {
+          return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
+          // return b.Favorite - a.Favorite;
+        })
+      }else if(this.selectSort['name'] == 'desc' && this.sortFav){
         this.gamesList.sort(function (a, b) {
           if (b.Name.en > a.Name.en) {
             return 1;
@@ -105,8 +132,14 @@ export class GameListComponent implements OnInit {
           // a должно быть равным b
           return 0;
         })
+        this.gamesList.sort(function (a, b) {
+          return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
+          // return b.Favorite - a.Favorite;
+        })
+      }else{
+        this.changeSort()
       }
-    }
+    
     // console.log(event.target.checked, this.sortFav);
     
   }
@@ -114,9 +147,12 @@ export class GameListComponent implements OnInit {
   addFavorite(game){
     
     let repeat = false
-    for (const iterator of this.Favorite) {
-      if(iterator.id == game.ID){
+    for (const [index, value] of this.Favorite.entries()) {
+      if(value.id == game.ID){
         repeat = true
+        this.gamesList.find(e => e.ID === game.ID).Favorite = false
+        this.Favorite.splice(index, 1)
+        this.fav()
       }
     }
     if (!repeat) {
@@ -125,10 +161,9 @@ export class GameListComponent implements OnInit {
       this.fav()
     }
     
-    // Favorite.
-    // localStorage
+    
     localStorage.setItem('Favorite', JSON.stringify(this.Favorite));
-    console.log( localStorage.getItem('Favorite'), this.gamesList.find(e => e.ID === game.ID));
+    console.log(this.Favorite );
     
   }
 
