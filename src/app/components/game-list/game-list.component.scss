@@ -24,11 +24,10 @@
         .pageSize {
           position: relative;
           display: block;
-          padding: 0.4rem 0rem;
+          padding: 0.4rem;
           line-height: 1.25;
           font-size: 1rem;
-          color: #333;
-          background-color: #fff;
+          color: var(--light);
           cursor: pointer;
 
           &.active {
@@ -39,6 +38,7 @@
         label {
           margin-bottom: 0px;
           margin-right: 10px;
+          color: var(--light);
         }
       }
     }
@@ -46,16 +46,49 @@
     .pagination-list {
       // width: 100%;
       margin-top: 1rem;
-    }
-  }
-  .button-block {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
 
-    .favorite {
-      background-color: var(--green);
+      &::ng-deep .page-link {
+        background-color: unset;
+        border: none;
+        padding: 0.3rem 0.75rem;
+      }
+      &::ng-deep .page-link:hover {
+        color: #fff;
+      }
+      &::ng-deep .active {
+        border-radius: 0.125rem;
+        background-color: unset;
+      }
+    }
+
+    .form-control{
+      height: calc(1em + 0.75rem + 2px);
     }
   }
+  .card{
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: unset;
+    width: 15.8%;
+    
+    .card-title{
+      font: 400 calc(16px * 0.83)/20px Roboto, "Helvetica Neue", sans-serif;
+      margin: 0 0 18px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .button-block {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+  
+      .favorite {
+        background-color: var(--green);
+        border: none;
+      }
+    }
+  }
+  
+  
 }

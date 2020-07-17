@@ -10,17 +10,14 @@ import { FuncService } from 'src/app/servises/func.service';
 })
 export class GameListComponent implements OnInit {
   gamesList: any = [];
-  twoGameList: any = this.gamesList;
-  page = 1;
-  pageSize = 20;
-  collectionSize = 10;
-  sorting: Array<Object> = [
-    { num: 0, name: 'ASC' },
-    { num: 1, name: 'desc' }
-  ];
-  selectSort = this.sorting[0];
-  sortFav = false;
-  Favorite: any[] = JSON.parse(localStorage.getItem('Favorite'));
+  twoGameList: any;
+  page;
+  pageSize;
+  collectionSize;
+  sorting: Array<Object>;
+  selectSort;
+  sortFav;
+  Favorite: any[];
   search: string;
 
 
@@ -35,7 +32,6 @@ export class GameListComponent implements OnInit {
     this.selectSort = this.sorting[0];
     this.sortFav = this.funcService.sortFav;
     this.Favorite = this.funcService.Favorite;
-    this.search = this.funcService.search;
   }
 
   ngOnInit(): void {
@@ -51,6 +47,8 @@ export class GameListComponent implements OnInit {
         }
         this.gamesList.push(value);
       }
+      console.log(this.gamesList);
+      
 
       this.gamesList.sort(function (a, b) {
         if (a.Name.en > b.Name.en) {
@@ -65,62 +63,38 @@ export class GameListComponent implements OnInit {
   }
 
   searching(){
-    let searchEl: any = [];
-    for (const iterator of this.gamesList) {
-      if(iterator.Name.en.toLocaleLowerCase().indexOf(this.search.toLocaleLowerCase()) > -1 && this.search.length > 2){
-        searchEl.push(iterator);
-      }
-    }
-    if(this.search.length > 2){
-      this.gamesList = searchEl
-      this.collectionSize = this.gamesList.length
-    }else{
-      this.gamesList = this.twoGameList
-      this.collectionSize = this.gamesList.length
-    }
-
+    this.funcService.gamesList = this.gamesList
+    this.funcService.collectionSize = this.collectionSize
+    this.funcService.twoGameList = this.twoGameList
+    this.funcService.searching(this.search)
+    this.gamesList = this.funcService.gamesList 
   }
-  // searching(){
-  //   this.funcService.searching(this.gamesList, this.search, this.collectionSize, this.twoGameList)
-  //   console.log(this.gamesList);
-    
-  // }
+
   /**
    * Сортировка по названию
    */
   changeSort(){
-    this.funcService.changeSort(this.selectSort, this.gamesList, this.sortFav )
+    this.funcService.gamesList = this.gamesList
+    this.funcService.selectSort = this.selectSort
+    this.funcService.sortFav = this.sortFav
+    this.funcService.changeSort()
   }
   
   /**
    * Сортировка по фоворитам
    */
   sortingFav(){
-    this.funcService.sortingFav(this.selectSort, this.sortFav, this.gamesList)
+    this.funcService.selectSort = this.selectSort
+    this.funcService.sortFav = this.sortFav
+    this.funcService.gamesList = this.gamesList
+    this.funcService.sortingFav()
   }
  
 
   addFavorite(game){
-    
-    let repeat = false
-    for (const [index, value] of this.Favorite.entries()) {
-      if(value.id == game.ID){
-        repeat = true
-        this.gamesList.find(e => e.ID === game.ID).Favorite = false
-        this.Favorite.splice(index, 1)
-        this.sortingFav()
-      }
-    }
-    if (!repeat) {
-      this.Favorite.push({id: game.ID})
-      this.gamesList.find(e => e.ID === game.ID).Favorite = true
-      this.sortingFav()
-    }
-    
-    
-    localStorage.setItem('Favorite', JSON.stringify(this.Favorite));
-    console.log(this.Favorite );
-    
+    this.funcService.gamesList = this.gamesList
+    this.funcService.Favorite = this.Favorite
+    this.funcService.addFavorite(game)   
   }
 
 

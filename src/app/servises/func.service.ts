@@ -16,15 +16,14 @@ export class FuncService {
   selectSort = this.sorting[0];
   sortFav = false;
   Favorite: any[] = JSON.parse(localStorage.getItem('Favorite'));
-  search: string;
 
   /**
    * Сортировка по названию
    */
-  changeSort(selectSort: any, gamesList: any, sortFav){
-    console.log(selectSort['name']);
-    if(selectSort['name'] == 'ASC'){
-      gamesList.sort(function (a, b) {
+  changeSort(){
+
+    if(this.selectSort['name'] == 'ASC'){
+      this.gamesList.sort(function (a, b) {
         if (a.Name.en > b.Name.en) {
           return 1;
         }
@@ -33,55 +32,51 @@ export class FuncService {
         }
         return 0;
       })
-      if(sortFav){
-        gamesList.sort(function (a, b) {
+      if(this.sortFav){
+        this.gamesList.sort(function (a, b) {
           return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
-          // return b.Favorite - a.Favorite;
         })
       }
-    }else if(selectSort['name'] == 'desc'){
-      gamesList.sort(function (a, b) {
+    }else if(this.selectSort['name'] == 'desc'){
+      this.gamesList.sort(function (a, b) {
         if (b.Name.en > a.Name.en) {
           return 1;
         }
         if (b.Name.en < a.Name.en) {
           return -1;
         }
-        // a должно быть равным b
         return 0;
       })
-      if(sortFav){
-        gamesList.sort(function (a, b) {
+      
+      if(this.sortFav){
+        this.gamesList.sort(function (a, b) {
           return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
-          // return b.Favorite - a.Favorite;
         })
       }
     }
   }
 
-  searching(gamesList: any, search: any, collectionSize: any, twoGameList: any){
-    
-    
+  searching(search){
     let searchEl: any = [];
-    for (const iterator of gamesList) {
+    for (const iterator of this.gamesList) {
       if(iterator.Name.en.toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) > -1 && search.length > 2){
         searchEl.push(iterator);
       }
     }
     
     if(search.length > 2){
-      gamesList = searchEl
-      collectionSize = gamesList.length
+      this.gamesList = searchEl
+      this.collectionSize = this.gamesList.length
     }else{
-      gamesList = twoGameList
-      collectionSize = gamesList.length
+      this.gamesList = this.twoGameList
+      this.collectionSize = this.gamesList.length
     }
     console.log(searchEl);
   }
 
-  sortingFav(selectSort, sortFav, gamesList){
-    if(selectSort['name'] == 'ASC' && sortFav){
-      gamesList.sort(function (a, b) {
+  sortingFav(){
+    if(this.selectSort['name'] == 'ASC' && this.sortFav){
+      this.gamesList.sort(function (a, b) {
         if (a.Name.en > b.Name.en) {
           return 1;
         }
@@ -91,12 +86,12 @@ export class FuncService {
         // a должно быть равным b
         return 0;
       })
-      gamesList.sort(function (a, b) {
+      this.gamesList.sort(function (a, b) {
         return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
         // return b.Favorite - a.Favorite;
       })
-    }else if(selectSort['name'] == 'desc' && sortFav){
-      gamesList.sort(function (a, b) {
+    }else if(this.selectSort['name'] == 'desc' && this.sortFav){
+      this.gamesList.sort(function (a, b) {
         if (b.Name.en > a.Name.en) {
           return 1;
         }
@@ -106,36 +101,33 @@ export class FuncService {
         // a должно быть равным b
         return 0;
       })
-      gamesList.sort(function (a, b) {
+      this.gamesList.sort(function (a, b) {
         return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
         // return b.Favorite - a.Favorite;
       })
     }else{
-      this.changeSort(selectSort, gamesList, sortFav)
+      this.changeSort()
     }
 }
 
-addFavorite(game, Favorite, gamesList){
+addFavorite(game){
     
   let repeat = false
-  for (const [index, value] of Favorite.entries()) {
+  for (const [index, value] of this.Favorite.entries()) {
     if(value.id == game.ID){
       repeat = true
-      gamesList.find(e => e.ID === game.ID).Favorite = false
-      Favorite.splice(index, 1)
-      this.sortingFav(this.selectSort, this.sortFav, this.gamesList)
+      this.gamesList.find(e => e.ID === game.ID).Favorite = false
+      this.Favorite.splice(index, 1)
+      this.sortingFav()
     }
   }
   if (!repeat) {
-    Favorite.push({id: game.ID})
-    gamesList.find(e => e.ID === game.ID).Favorite = true
-    this.sortingFav(this.selectSort, this.sortFav, this.gamesList)
+    this.Favorite.push({id: game.ID})
+    this.gamesList.find(e => e.ID === game.ID).Favorite = true
+    this.sortingFav()
   }
   
-  
-  localStorage.setItem('Favorite', JSON.stringify(Favorite));
-  console.log(Favorite );
-  
+  localStorage.setItem('Favorite', JSON.stringify(this.Favorite));
 }
 
 }
