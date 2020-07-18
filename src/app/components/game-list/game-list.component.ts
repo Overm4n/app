@@ -15,10 +15,10 @@ export class GameListComponent implements OnInit {
   pageSize;
   collectionSize;
   sorting: Array<Object>;
-  selectSort;
   sortFav;
   Favorite: any[];
   search: string;
+  sortName: boolean;
 
 
 
@@ -29,9 +29,9 @@ export class GameListComponent implements OnInit {
     this.pageSize = this.funcService.pageSize;
     this.collectionSize = this.funcService.collectionSize;
     this.sorting = this.funcService.sorting;
-    this.selectSort = this.sorting[0];
     this.sortFav = this.funcService.sortFav;
     this.Favorite = this.funcService.Favorite;
+    this.sortName = this.funcService.sortName;
   }
 
   ngOnInit(): void {
@@ -46,9 +46,7 @@ export class GameListComponent implements OnInit {
           
         }
         this.gamesList.push(value);
-      }
-      console.log(this.gamesList);
-      
+      }    
 
       this.gamesList.sort(function (a, b) {
         if (a.Name.en > b.Name.en) {
@@ -75,8 +73,8 @@ export class GameListComponent implements OnInit {
    */
   changeSort(){
     this.funcService.gamesList = this.gamesList
-    this.funcService.selectSort = this.selectSort
     this.funcService.sortFav = this.sortFav
+    this.funcService.sortName = this.sortName;
     this.funcService.changeSort()
   }
   
@@ -84,7 +82,6 @@ export class GameListComponent implements OnInit {
    * Сортировка по фоворитам
    */
   sortingFav(){
-    this.funcService.selectSort = this.selectSort
     this.funcService.sortFav = this.sortFav
     this.funcService.gamesList = this.gamesList
     this.funcService.sortingFav()

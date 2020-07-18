@@ -14,9 +14,9 @@ export class FavoritesComponent implements OnInit {
   pageSize;
   collectionSize;
   sorting: Array<Object>;
-  selectSort;
   sortFav;
   Favorite: any[];
+  sortName: boolean;
 
   constructor(private http: HttpClient, private funcService: FuncService) {
     this.gamesList  = this.funcService.gamesList;
@@ -25,9 +25,9 @@ export class FavoritesComponent implements OnInit {
     this.pageSize = this.funcService.pageSize;
     this.collectionSize = this.funcService.collectionSize;
     this.sorting = this.funcService.sorting;
-    this.selectSort = this.sorting[0];
     this.sortFav = this.funcService.sortFav;
     this.Favorite = this.funcService.Favorite;
+    this.sortName = this.funcService.sortName;
    }
 
   ngOnInit(): void {
@@ -61,7 +61,7 @@ export class FavoritesComponent implements OnInit {
 
   changeSort(){
     this.funcService.gamesList = this.gamesList
-    this.funcService.selectSort = this.selectSort
+    this.funcService.sortName = this.sortName;
     this.funcService.sortFav = this.sortFav
     this.funcService.changeSort()
   }

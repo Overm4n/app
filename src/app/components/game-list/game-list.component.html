@@ -20,10 +20,9 @@
         <input type="radio" name="pageSize" id="pageSize-60" class="radio-hidden" value="60" [(ngModel)]="pageSize">
       </div>
       <div class="ont-el">
-        <label for="sort">Сортировка</label>
-        <select name="sort" id="sort" [(ngModel)]="selectSort" (change)="changeSort()">
-            <option *ngFor="let sort of sorting" [ngValue]="sort">{{sort.name}}</option>
-        </select>
+        <label for="sort">Сортировка:</label>
+        <input type="checkbox" name="name" id="name" class="d-none checkbox-arrow" [(ngModel)]="sortName" (change)="changeSort()">
+        <label for="name" class="arrowSort">Имя</label>
       </div>
       <div class="ont-el">
         <label for="fav">Сначала фавориты</label>
@@ -72,10 +71,9 @@
         <input type="radio" name="pageSize" id="pageSize-60" class="radio-hidden" value="60" [(ngModel)]="pageSize">
       </div>
       <div class="ont-el">
-        <label for="sort">Сортировка</label>
-        <select name="sort" id="sort" [(ngModel)]="selectSort" (change)="changeSort()">
-            <option *ngFor="let sort of sorting" [ngValue]="sort">{{sort.name}}</option>
-        </select>
+        <label for="sort">Сортировка:</label>
+        <input type="checkbox" name="name" id="name-1" class="d-none checkbox-arrow" [(ngModel)]="sortName" (change)="changeSort()">
+        <label for="name-1" class="arrowSort">Имя</label>
       </div>
       <div class="ont-el">
         <label for="fav">Сначала фавориты</label>

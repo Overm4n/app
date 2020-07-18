@@ -13,16 +13,18 @@ export class FuncService {
     { num: 0, name: 'ASC' },
     { num: 1, name: 'desc' }
   ];
-  selectSort = this.sorting[0];
   sortFav = false;
   Favorite: any[] = JSON.parse(localStorage.getItem('Favorite'));
+  sortName: boolean = false;
 
   /**
    * Сортировка по названию
    */
   changeSort(){
+    console.log(this.sortName);
+    
 
-    if(this.selectSort['name'] == 'ASC'){
+    if(!this.sortName){
       this.gamesList.sort(function (a, b) {
         if (a.Name.en > b.Name.en) {
           return 1;
@@ -37,7 +39,7 @@ export class FuncService {
           return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
         })
       }
-    }else if(this.selectSort['name'] == 'desc'){
+    }else if(this.sortName){
       this.gamesList.sort(function (a, b) {
         if (b.Name.en > a.Name.en) {
           return 1;
@@ -75,7 +77,7 @@ export class FuncService {
   }
 
   sortingFav(){
-    if(this.selectSort['name'] == 'ASC' && this.sortFav){
+    if(!this.sortName && this.sortFav){
       this.gamesList.sort(function (a, b) {
         if (a.Name.en > b.Name.en) {
           return 1;
@@ -90,7 +92,7 @@ export class FuncService {
         return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
         // return b.Favorite - a.Favorite;
       })
-    }else if(this.selectSort['name'] == 'desc' && this.sortFav){
+    }else if(this.sortName && this.sortFav){
       this.gamesList.sort(function (a, b) {
         if (b.Name.en > a.Name.en) {
           return 1;

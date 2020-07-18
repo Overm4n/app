@@ -17,6 +17,23 @@
         display: flex;
         align-items: center;
 
+        .arrowSort{
+          position: relative;
+
+          &::before{
+            content: "↑";
+            position: absolute;
+            right: -11px;
+            top: -2px;
+            font-size: 0.8rem;
+          }
+        }
+
+        .checkbox-arrow:checked + .arrowSort::before{
+          transform: rotate(180deg);
+          top: 0px;
+        }
+
         .radio-hidden {
           display: none;
         }
