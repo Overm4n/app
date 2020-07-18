@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,32 @@ export class FuncService {
   sortFav = false;
   Favorite: any[] = JSON.parse(localStorage.getItem('Favorite'));
   sortName: boolean = false;
+  filter: number;
+
+  constructor(private http: HttpClient) {
+
+  }
+
+  changeFilter(){
+    this.http.get('assets/games.json').subscribe((data: any) => {
+      console.log(data);
+      
+      this.collectionSize = data.games.length;
+      
+      for (const [index, value] of data.games.entries()) {
+        for (const iterator of this.Favorite) {
+          if(iterator.id == value.ID){
+            value.Favorite = true
+          }
+          
+        }
+        
+        
+        // this.gamesList.push(value);
+      } 
+      console.log(this.gamesList);
+    });
+  }
 
   /**
    * Сортировка по названию
@@ -85,12 +112,12 @@ export class FuncService {
         if (a.Name.en < b.Name.en) {
           return -1;
         }
-        // a должно быть равным b
+
         return 0;
       })
       this.gamesList.sort(function (a, b) {
         return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
-        // return b.Favorite - a.Favorite;
+
       })
     }else if(this.sortName && this.sortFav){
       this.gamesList.sort(function (a, b) {
@@ -100,12 +127,12 @@ export class FuncService {
         if (b.Name.en < a.Name.en) {
           return -1;
         }
-        // a должно быть равным b
+
         return 0;
       })
       this.gamesList.sort(function (a, b) {
         return (a.Favorite=== b.Favorite)? 0 : a.Favorite? -1 : 1;
-        // return b.Favorite - a.Favorite;
+
       })
     }else{
       this.changeSort()

@@ -19,6 +19,7 @@ export class GameListComponent implements OnInit {
   Favorite: any[];
   search: string;
   sortName: boolean;
+  filter: number;
 
 
 
@@ -32,10 +33,12 @@ export class GameListComponent implements OnInit {
     this.sortFav = this.funcService.sortFav;
     this.Favorite = this.funcService.Favorite;
     this.sortName = this.funcService.sortName;
+    this.filter = this.funcService.filter;
   }
 
   ngOnInit(): void {
     this.http.get('assets/games.json').subscribe((data: any) => {
+      
       this.collectionSize = data.games.length;
       
       for (const [index, value] of data.games.entries()) {
@@ -58,6 +61,12 @@ export class GameListComponent implements OnInit {
         return 0;
       })
     });
+  }
+
+  changeFilter(){
+    this.funcService.filter = this.filter;
+    this.funcService.gamesList = this.gamesList;
+    this.funcService.changeFilter();
   }
 
   searching(){
