@@ -20,9 +20,10 @@ export class GameListComponent implements OnInit {
   search: string;
   sortName: boolean;
   filter: Array<Object> = [];
+  tempArrFilter: Array<Object> = [];
+  filterBtn: boolean = false;
 
-
-
+ 
   constructor(private http: HttpClient, private funcService: FuncService ) {
     this.gamesList  = this.funcService.gamesList;
     this.twoGameList = this.gamesList;
@@ -64,11 +65,30 @@ export class GameListComponent implements OnInit {
   }
 
   changeFilter(){
-    this.funcService.filter = this.filter;
-    console.log(this.filter, this.funcService.filter);
-    this.funcService.changeFilter();
-    this.gamesList = this.funcService.gamesList;
-    
+    this.tempArrFilter = []
+    this.http.get('assets/games.json').subscribe((data: any) => {
+      this.twoGameList = data.games
+      for (const [index, value] of this.filter.entries()) {
+        if (value['checked']) {
+          this.tempArrFilter.push(value)
+        }      
+    }
+    if(this.tempArrFilter.length > 0){
+      this.twoGameList = []
+      for (const [index, value] of data.games.entries()) {
+        for (const [index_, value_] of this.tempArrFilter.entries()) {
+          if(value.CategoryID.indexOf(value_['id']) >= 0){             
+            this.twoGameList.push(value);
+            break
+          }
+        }
+      }
+    }
+
+    this.collectionSize = this.twoGameList.length;
+    this.gamesList = this.twoGameList;
+    this.changeSort()
+    });   
     
   }
 

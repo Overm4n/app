@@ -17,10 +17,10 @@
         display: flex;
         align-items: center;
 
-        .arrowSort{
+        .arrowSort {
           position: relative;
 
-          &::before{
+          &::before {
             content: "↑";
             position: absolute;
             right: -11px;
@@ -29,7 +29,7 @@
           }
         }
 
-        .checkbox-arrow:checked + .arrowSort::before{
+        .checkbox-arrow:checked + .arrowSort::before {
           transform: rotate(180deg);
           top: 0px;
         }
@@ -78,17 +78,17 @@
       }
     }
 
-    .form-control{
+    .form-control {
       height: calc(1em + 0.75rem + 2px);
     }
   }
-  .card{
+  .card {
     border: 1px solid rgba(255, 255, 255, 0.08);
     background-color: unset;
     width: 15.8%;
-    
-    .card-title{
-      font: 400 calc(16px * 0.83)/20px Roboto, "Helvetica Neue", sans-serif;
+
+    .card-title {
+      font: 400 calc(16px * 0.83) / 20px Roboto, "Helvetica Neue", sans-serif;
       margin: 0 0 18px;
       text-align: center;
       color: #fff;
@@ -99,13 +99,68 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-evenly;
-  
+
       .favorite {
         background-color: var(--green);
         border: none;
       }
     }
   }
-  
-  
+
+  .filter {
+    position: relative;
+    z-index: 10;
+
+    span {
+      color: var(--light);
+    }
+
+    .filter-btn{
+      border-radius: 5px;
+      background-color: #343a40;
+      color: var(--light);
+      border: none;
+      padding: 5px 10px;
+
+      &.active{
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+
+      &:focus{
+        outline: none;
+      }
+    }
+
+    .container-list-filter {
+      max-height: 0px;
+      overflow: auto;
+      position: absolute;
+      width: 200px;
+
+      &.active{
+        max-height: fit-content;
+      }
+
+      .filter-list {
+        width: 100%;
+        padding: 6px 10px;
+        background-color: #343a40;
+        border-radius: 5px;
+        border-top-left-radius: 0px;
+
+        .filter-el {
+          display: flex;
+          align-items: center;
+          margin-bottom: 5px;
+
+          label {
+            margin-bottom: 0px;
+            margin-right: 0px;
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+  }
 }

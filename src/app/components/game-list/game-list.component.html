@@ -32,11 +32,21 @@
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" [(ngModel)]="search" (input)="searching()">
     </div>
     <div class="ont-el">
-      <label for="fav">Фильтр:</label>
-      <div *ngFor="let cat of filter; let i = index">
-        <input type="checkbox" name="filter" [(ngModel)]="filter[i].checked" (change)="changeFilter()"  value="{{cat.id}}">
-        <label for="">{{cat.name}}</label>
+      <div class="filter">
+      <button class="filter-btn" [ngClass]="{active: filterBtn}" (click)="filterBtn = !filterBtn">Фильтр</button> 
+      <div class="container-list-filter" [ngClass]="{active: filterBtn}"> 
+        <div class="filter-list">
+          <div *ngFor="let cat of filter; let i = index" class="filter-el">
+            <input type="checkbox" name="filter" id="cat-{{cat.id}}" [(ngModel)]="filter[i].checked" (change)="changeFilter()"  value="{{cat.id}}">
+            <label for="cat-{{cat.id}}">{{cat.name}}</label>
+          </div>
+        </div>
       </div>
+      
+      
+      </div>
+
+      
       
     </div>
     </div>
