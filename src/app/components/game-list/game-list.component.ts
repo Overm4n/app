@@ -19,7 +19,7 @@ export class GameListComponent implements OnInit {
   Favorite: any[];
   search: string;
   sortName: boolean;
-  filter: number;
+  filter: Array<Object> = [];
 
 
 
@@ -65,8 +65,11 @@ export class GameListComponent implements OnInit {
 
   changeFilter(){
     this.funcService.filter = this.filter;
-    this.funcService.gamesList = this.gamesList;
+    console.log(this.filter, this.funcService.filter);
     this.funcService.changeFilter();
+    this.gamesList = this.funcService.gamesList;
+    
+    
   }
 
   searching(){

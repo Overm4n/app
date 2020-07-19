@@ -33,8 +33,11 @@
     </div>
     <div class="ont-el">
       <label for="fav">Фильтр:</label>
-      <input type="checkbox" name="filter" [(ngModel)]="filter" (change)="changeFilter()" value="16">Slots
-      <input type="checkbox" name="filter" [(ngModel)]="filter" (change)="changeFilter()" value="38">Multi Player Games
+      <div *ngFor="let cat of filter; let i = index">
+        <input type="checkbox" name="filter" [(ngModel)]="filter[i].checked" (change)="changeFilter()"  value="{{cat.id}}">
+        <label for="">{{cat.name}}</label>
+      </div>
+      
     </div>
     </div>
   </div>

@@ -17,31 +17,44 @@ export class FuncService {
   sortFav = false;
   Favorite: any[] = JSON.parse(localStorage.getItem('Favorite'));
   sortName: boolean = false;
-  filter: number;
+  filter: Array<Object> = [];
+  tempArrFilter: Array<Object> = [];
 
   constructor(private http: HttpClient) {
-
+    this.http.get('assets/games.json').subscribe((data: any) => {    
+      for (const [index, value] of data.categories.entries()) {       
+        this.filter.push({id: value.ID, name: value.Name.en, checked: false})
+      } 
+    })
+    console.log(this.filter);
+    
   }
 
   changeFilter(){
+    this.tempArrFilter = []
     this.http.get('assets/games.json').subscribe((data: any) => {
-      console.log(data);
-      
-      this.collectionSize = data.games.length;
-      
-      for (const [index, value] of data.games.entries()) {
-        for (const iterator of this.Favorite) {
-          if(iterator.id == value.ID){
-            value.Favorite = true
-          }
-          
+      this.twoGameList = []
+      for (const [index, value] of this.filter.entries()) {
+        if (value['checked']) {
+          this.tempArrFilter.push(value)
+        }      
+    }
+    for (const [index, value] of data.games.entries()) {
+      for (const [index_, value_] of this.tempArrFilter.entries()) {
+        if(value.CategoryID.indexOf(value_['id']) >= 0){             
+          this.twoGameList.push(value);
+          break
         }
-        
-        
-        // this.gamesList.push(value);
-      } 
-      console.log(this.gamesList);
+      }
+    }
+    this.collectionSize = this.twoGameList.length;
+    this.gamesList = this.twoGameList;
+      
     });
+    this.collectionSize = this.twoGameList.length;
+    this.gamesList = this.twoGameList;
+    console.log(this.collectionSize, this.gamesList, this.tempArrFilter);  
+    
   }
 
   /**
